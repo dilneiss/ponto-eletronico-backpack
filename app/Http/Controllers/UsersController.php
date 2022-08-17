@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class UsersController extends Controller
 {
-    public function create()
-    {
-
-    }
 
     public function retrieve()
     {
@@ -18,13 +16,12 @@ class UsersController extends Controller
         return view('panel.collaborator.show', compact('users'));
     }
 
-    public function update()
+    public function changePassword(ChangePasswordRequest $request)
     {
 
-    }
+        User::find(auth()->user()->id)->update(['password' => Hash::make($request->nova_senha)]);
 
-    public function delete()
-    {
+        return redirect()->to('perfil')->with('message', "Senha Atualizada com sucesso!");
 
     }
 

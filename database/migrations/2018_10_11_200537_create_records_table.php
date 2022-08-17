@@ -15,7 +15,7 @@ class CreateRecordsTable extends Migration
     {
         Schema::create('records', function (Blueprint $table) {
             $table->increments('record_id');
-            $table->char('type');
+            $table->string('type', 30);
             $table->timestamp('date');
             $table->string('ip');
             $table->timestamps();

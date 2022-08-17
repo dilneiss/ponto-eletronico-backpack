@@ -113,23 +113,18 @@ return [
             'url' => '/ponto',
             'icon' => 'clock-o',
         ],
-        [
-            'text' => 'Meu Histórico',
-            'url' => '/historico',
-            'icon' => 'history',
-        ],
         'Administração',
         [
             'text' => 'Colaboradores',
             'url' => '/colaboradores',
             'icon' => 'users',
-            'can' => 'adm-menu'
+            'can' => 'menu-admin'
         ],
         [
             'text' => 'Relatórios',
             'url' => '/relatorios',
             'icon' => 'list',
-            'can' => 'adm-menu'
+            'can' => 'menu-admin'
         ],
         'MINHA CONTA',
         [

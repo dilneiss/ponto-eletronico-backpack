@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
-
+use App\Enum\RecordTypeEnum;
 use App\Http\Requests;
-use Auth;
 use App\Models\Records;
+use Auth;
 use Carbon;
+use DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Validator;
-use DB;
 
 class RecordsController extends Controller
 {
@@ -34,38 +33,27 @@ class RecordsController extends Controller
     public function create()
     {
         $buttonText = 'Iniciar Horário de Trabalho';
-        $buttonClass = 'btn btn-success btn-lg';
-        $type = Records::IN;
+        $buttonClass = 'btn btn-success';
+        $type = RecordTypeEnum::POINT_START;
 
-        $points = Records::where('user_id', '=', Auth::user()->id)
-            ->orderBy('date', 'desc')
-            ->take(10)
-            ->get();
+        $lastRecord = Records::where('user_id', '=', \Illuminate\Support\Facades\Auth::user()->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
 
-        $last = $points->first();
-        if (isset($last) && $last->type == Records::IN) {
-            $type = Records::ININTERVAL;
-            $buttonText = 'Iniciar Horário de Intervalo';
-            $buttonClass = 'btn btn-danger btn-lg';
+        if ($lastRecord->type == RecordTypeEnum::POINT_START) {
+            $type = RecordTypeEnum::POINT_END;
+            $buttonText = 'Encerrar Ponto';
+            $buttonClass = 'btn btn-warning';
         }
-        if (isset($last) && $last->type == Records::ININTERVAL) {
-            $type = Records::OUTINTERVAL;
-            $buttonText = 'Retornar do Horário de Intervalo';
-            $buttonClass = 'btn btn-success btn-lg';
-        }
-        if (isset($last) && $last->type == Records::OUTINTERVAL) {
-            $type = Records::OUT;
-            $buttonText = 'Encerrar Horário de Trabalho';
-            $buttonClass = 'btn btn-danger btn-lg';
-        }
-        return view('panel.record.new', compact('buttonText', 'buttonClass', 'type', 'points'));
+
+        return view('panel.record.new', compact('buttonText', 'buttonClass', 'type', 'lastRecord'));
     }
 
     public function retrieve()
     {
         $buttonText = 'Iniciar Horário de Trabalho';
         $buttonClass = 'btn btn-success btn-lg';
-        $type = Records::IN;
+        $type = RecordTypeEnum::POINT_START;
 
         $points = Records::where('user_id', '=', Auth::user()->id)
             ->orderBy('date', 'desc')
@@ -73,33 +61,12 @@ class RecordsController extends Controller
             ->get();
 
         $last = $points->first();
-        if (isset($last) && $last->type == Records::IN) {
-            $type = Records::ININTERVAL;
-            $buttonText = 'Iniciar Horário de Intervalo';
-            $buttonClass = 'btn btn-danger btn-lg';
-        }
-        if (isset($last) && $last->type == Records::ININTERVAL) {
-            $type = Records::OUTINTERVAL;
-            $buttonText = 'Retornar do Horário de Intervalo';
+        if (isset($last) && $last->type == RecordTypeEnum::POINT_START) {
+            $type = RecordTypeEnum::POINT_END;
+            $buttonText = 'Encerrar Ponto';
             $buttonClass = 'btn btn-success btn-lg';
         }
-        if (isset($last) && $last->type == Records::OUTINTERVAL) {
-            $type = Records::OUT;
-            $buttonText = 'Encerrar Horário de Trabalho';
-            $buttonClass = 'btn btn-danger btn-lg';
-        }
         return view('panel.record.show', compact('buttonText', 'buttonClass', 'type', 'points'));
-    }
-
-    public function showRecordsByUser($user_id)
-    {
-        $points = Records::where('user_id', '=', $user_id)
-            ->orderBy('date', 'desc')
-            ->get();
-
-        $users = User::where('id', '=', $user_id)->get();
-
-        return view('panel.record.recordsUser', compact('points', $points, 'users', $users));
     }
 
     public function editRecordsByUser($record_id)
@@ -135,7 +102,7 @@ class RecordsController extends Controller
                     'record_id' => $request->record_id,
                     'type' => $request->type,
                     'date' => $timestamp,
-                    'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                    'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
                     //'user_id' => $request->user_id, //Dono do registro
                 ];
 
@@ -147,7 +114,7 @@ class RecordsController extends Controller
                     'dateLog' => $request->dateLog,
                     'edited_by' => $request->edited_by,
                     'dateLog' => $request->created_at_log,
-                    'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                    'created_at' => Carbon\Carbon::now()->toDateTimeString(),
                     'description' => $request->description,
                     'owner' => $request->user_id,
                 ]);
@@ -190,12 +157,12 @@ class RecordsController extends Controller
                     'date' => $timestamp,
                     'ip' => request()->ip(),
                     'user_id' => $request->user_id,
-                    'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
-                    'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                    'created_at' => Carbon\Carbon::now()->toDateTimeString(),
+                    'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
 
                 ]);
 
-            $lastId = DB::getPdo()->lastInsertId();;
+            $lastId = DB::getPdo()->lastInsertId();
 
             DB::table('activity_logs')->insert(
                 [
@@ -206,8 +173,8 @@ class RecordsController extends Controller
                     'edited_by' => Auth::user()->id,
                     'record_id' => $lastId,
                     'owner' => $request->user_id,
-                    'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
-                    'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                    'created_at' => Carbon\Carbon::now()->toDateTimeString(),
+                    'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
 
                 ]);
 

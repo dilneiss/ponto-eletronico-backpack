@@ -19,16 +19,16 @@ Route::get('/', 'HomeController@index');
 Route::get('/ponto', 'RecordsController@create');
 Route::get('/historico', 'RecordsController@retrieve');
 
-
-Route::get('/perfil', 'UsersController@profile');
+Route::get('/perfil', 'UsersController@profile')->name('profile.home');
 
 Route::resource('record', 'RecordsController');
 
 Route::group(['middleware' => ['web', 'auth']], function () {
 
+    Route::post('profile/change-password', 'UsersController@changePassword')->name('profile.changePassword');
+
     Route::get('/colaboradores', 'UsersController@retrieve');
 
-    Route::post('{id}/historico', 'RecordsController@showRecordsByUser')->name('show.user.records');
     Route::post('{id}/editarHistorico', 'RecordsController@editRecordsByUser')->name('edit.user.records');
     Route::get('{id}/editarHistorico', 'RecordsController@editRecordsByUser')->name('edit.user.records');
 

@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('adm-menu', function ($user) {
+        Gate::define('menu-admin', function ($user) {
             if ($user->role_id == '1'){
                 return true;
             }
