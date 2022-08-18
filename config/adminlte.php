@@ -122,14 +122,14 @@ return [
         ],
         [
             'text' => 'Relatórios',
-            'url' => '/relatorios',
+            'url' => '/reports',
             'icon' => 'list',
             'can' => 'menu-admin'
         ],
         'MINHA CONTA',
         [
             'text' => 'Minha Conta',
-            'url' => '/perfil',
+            'url' => '/profile',
             'icon' => 'user',
         ],
     ],

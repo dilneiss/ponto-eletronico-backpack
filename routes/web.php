@@ -11,6 +11,9 @@
 |
 */
 
+use App\Http\Controllers\RecordsController;
+use App\Http\Controllers\UsersController;
+
 Auth::routes();
 
 Route::group(['middleware' => ['web', 'auth']], function () {
@@ -18,16 +21,14 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/home', 'HomeController@home');
     Route::get('/', 'HomeController@index');
 
-    Route::get('/perfil', 'UsersController@profile')->name('profile.home');
-
-    Route::resource('point', 'RecordsController');
-
+    Route::get('/profile', 'UsersController@profile')->name('profile.home');
     Route::post('profile/change-password', 'UsersController@changePassword')->name('profile.changePassword');
-    Route::post('{id}/save-point', 'RecordsController@createRecordsByAdmin')->name('create.user.records');
 
+    Route::resource('point', RecordsController::class);
 
-    Route::resource('users', \App\Http\Controllers\UsersController::class);
-    Route::get('/relatorios', 'RecordsController@reports');
+    Route::resource('users', UsersController::class);
+
+    Route::get('/reports', 'RecordsController@reports');
 
 
 });

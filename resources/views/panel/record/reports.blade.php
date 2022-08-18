@@ -3,63 +3,61 @@
 @section('title', 'Ponto Eletrônico')
 
 @section('content_header')
+    <div class="container-fluid">
+        <h1>Relatório de Pontos</h1>
+        @stop
 
-@stop
+        @section('content')
 
-@section('content')
-    <div class="well">
-        <h4 class="text-center">Logs de Atividade do Sistema - Registro de Alterações</h4>
-        <hr/>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Tipo do Registro</th>
-                <th>Alterado para</th>
-                <th>Data</th>
-                <th>Hora</th>
-                <th>Descrição</th>
-                <th>Criado por</th>
-                <th>Editado por</th>
-                <th>Data edição</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($logs as $log)
-                <tr>
-                    @if($log->oldTypeLog == "I")
-                        <td>Entrada</td>
-                    @elseif ($log->oldTypeLog == "II")
-                        <td>Intervalo</td>
-                    @elseif($log->oldTypeLog == "OI")
-                        <td>Retorno Intervalo</td>
-                    @elseif($log->oldTypeLog == "O")
-                        <td>Saída</td>
-                    @endif
-                    @if($log->newTypeLog == "I")
-                        <td>Entrada</td>
-                    @elseif ($log->newTypeLog == "II")
-                        <td>Intervalo</td>
-                    @elseif($log->newTypeLog == "OI")
-                        <td>Retorno Intervalo</td>
-                    @elseif($log->newTypeLog == "O")
-                        <td>Saída</td>
-                    @endif
-                    <td>{{ Carbon\Carbon::parse($log->dateLog)->format('d/m/Y') }}</td>
-                    <td>{{ Carbon\Carbon::parse($log->dateLog)->format('H:i:s') }}</td>
-                    <td>{{$log->description}}</td>
-                    @foreach($users as $user)
-                        @if($user->id == $log->owner)
-                            <td>{{$user->name}}</td>
-                        @endif
-                    @endforeach
-                        @foreach($users as $user)
-                            @if($user->id == $log->edited_by)
-                                <td>{{$user->name}}</td>
-                            @endif
-                        @endforeach
-                    <td>{{Carbon\Carbon::parse($log->created_at)->format('d/m/Y H:i:s')}}</td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+            <div class="row">
+                <div class="col-md-12">
+
+                    {!!  Form::open(['url'=>'reports', 'method' => 'get']) !!}
+
+                        <div class="col-xs-2 col-sm-2 col-md-2">
+                            <input type="date" name="date_start" class="form-control" value="{{request('date_start')}}">
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2">
+                            <input type="date" name="date_end" class="form-control" value="{{request('date_end')}}">
+                        </div>
+                        <div class="col-xs-1 col-sm-1 col-md-1">
+                            {!! Form::submit('Filtrar', ['class'=> 'btn btn-success']) !!}
+                        </div>
+
+                    {!!  Form::close() !!}
+
+                    <div class="text-center">
+                        <div class="panel-body">
+                            <table class="table table-striped table-bordered" style="background-color: #fff;">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Cargo</th>
+                                    <th>Idade</th>
+                                    <th>Nome do Gestor</th>
+                                    <th>Data Registro</th>
+                                    <th>Tipo de Ponto</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($users as $user)
+                                    <tr>
+                                        <td>{{$user->id}}</td>
+                                        <td>{{$user->name}}</td>
+                                        <td>{{$user->role_name}}</td>
+                                        <td>{{\Carbon\Carbon::parse($user->birthdate)->diffInYears()}}</td>
+                                        <td>{{$user->owner_name ?  : '-'}}</td>
+                                        <td>{{\Carbon\Carbon::parse($user->created_at)->format('d/m/Y - H:i:s')}}</td>
+                                        <td>{{\App\Enum\RecordTypeEnum::getName($user->type)}}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
 @stop

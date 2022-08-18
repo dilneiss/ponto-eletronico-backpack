@@ -65,8 +65,8 @@
                     <div class="col-xs-4 col-sm-4 col-md-4">
                         <div class="form-group">
                             <strong>Data de Nascimento:</strong>
-                            <input type="date" name="birhdate" class="form-control" placeholder="Data de Nascimento"
-                                   value="{{old('birhdate', $user->birhdate->format('Y-m-d'))}}">
+                            <input type="date" name="birthdate" class="form-control" placeholder="Data de Nascimento"
+                                   value="{{old('birthdate', $user->birthdate->format('Y-m-d'))}}">
                         </div>
                     </div>
                     <div class="col-xs-2 col-sm-2 col-md-2">

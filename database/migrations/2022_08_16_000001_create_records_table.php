@@ -14,10 +14,8 @@ class CreateRecordsTable extends Migration
     public function up()
     {
         Schema::create('records', function (Blueprint $table) {
-            $table->increments('record_id');
+            $table->id();
             $table->string('type', 30);
-            $table->timestamp('date');
-            $table->string('ip');
             $table->timestamps();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');

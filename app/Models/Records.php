@@ -8,8 +8,6 @@ class Records extends Model
 {
     protected $fillable = [
         'type',
-        'date',
-        'ip',
         'user_id'
     ];
 

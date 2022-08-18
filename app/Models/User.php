@@ -18,7 +18,7 @@ class User extends Authenticatable
         'name',
         'email',
         'cpf',
-        'birhdate',
+        'birthdate',
         'zip_code',
         'address',
         'address_number',
@@ -31,7 +31,7 @@ class User extends Authenticatable
     ];
 
     protected $dates = [
-        'birhdate',
+        'birthdate',
     ];
 
     /**

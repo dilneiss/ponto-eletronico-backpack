@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('cpf', 11)->unique();
             $table->string('email')->unique();
             $table->bigInteger('role_id')->default(2)->unsigned();
-            $table->date('birhdate')->nullable(false);
+            $table->date('birthdate')->nullable(false);
             $table->string('zip_code', 8)->nullable(false);
             $table->string('address')->nullable(false);
             $table->string('address_number')->nullable(false);

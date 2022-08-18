@@ -17,7 +17,7 @@ class UsersController extends Controller
 
         User::find(auth()->user()->id)->update(['password' => Hash::make($request->nova_senha)]);
 
-        return redirect()->to('perfil')->with('message', "Senha Atualizada com sucesso!");
+        return redirect()->to('profile')->with('message', "Senha Atualizada com sucesso!");
 
     }
 
