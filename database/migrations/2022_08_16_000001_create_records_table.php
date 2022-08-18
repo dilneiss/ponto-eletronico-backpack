@@ -19,7 +19,8 @@ class CreateRecordsTable extends Migration
             $table->timestamp('date');
             $table->string('ip');
             $table->timestamps();
-            $table->bigInteger('user_id')->references('id')->on('users');
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

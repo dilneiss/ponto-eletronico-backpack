@@ -110,13 +110,13 @@ return [
     'menu' => [
         [
             'text' => 'Registrar Ponto',
-            'url' => '/ponto',
+            'url' => '/point',
             'icon' => 'clock-o',
         ],
         'Administração',
         [
-            'text' => 'Colaboradores',
-            'url' => '/colaboradores',
+            'text' => 'Usuários',
+            'url' => '/users',
             'icon' => 'users',
             'can' => 'menu-admin'
         ],

@@ -13,33 +13,20 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@home');
-Route::get('/', 'HomeController@index');
-
-Route::get('/ponto', 'RecordsController@create');
-Route::get('/historico', 'RecordsController@retrieve');
-
-Route::get('/perfil', 'UsersController@profile')->name('profile.home');
-
-Route::resource('record', 'RecordsController');
-
 Route::group(['middleware' => ['web', 'auth']], function () {
 
+    Route::get('/home', 'HomeController@home');
+    Route::get('/', 'HomeController@index');
+
+    Route::get('/perfil', 'UsersController@profile')->name('profile.home');
+
+    Route::resource('point', 'RecordsController');
+
     Route::post('profile/change-password', 'UsersController@changePassword')->name('profile.changePassword');
-
-    Route::get('/colaboradores', 'UsersController@retrieve');
-
-    Route::post('{id}/editarHistorico', 'RecordsController@editRecordsByUser')->name('edit.user.records');
-    Route::get('{id}/editarHistorico', 'RecordsController@editRecordsByUser')->name('edit.user.records');
-
-    Route::post('{id}/criarHistorico', 'RecordsController@createRecordsByAdmin')->name('create.user.records');
-    Route::get('{id}/criarHistorico', 'RecordsController@createRecordsByAdmin')->name('create.user.records');
+    Route::post('{id}/save-point', 'RecordsController@createRecordsByAdmin')->name('create.user.records');
 
 
-    Route::post('/update', 'RecordsController@update');
-
-    Route::post('/create', 'RecordsController@createByAdmin');
-
+    Route::resource('users', \App\Http\Controllers\UsersController::class);
     Route::get('/relatorios', 'RecordsController@reports');
 
 

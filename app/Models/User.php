@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +15,23 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'cpf',
+        'birhdate',
+        'zip_code',
+        'address',
+        'address_number',
+        'district',
+        'complement',
+        'city',
+        'uf',
+        'user_id',
+        'password',
+    ];
+
+    protected $dates = [
+        'birhdate',
     ];
 
     /**
@@ -33,16 +49,9 @@ class User extends Authenticatable
         return $this->hasMany(Records::class);
     }
 
-    public function roles()
+    public function Role()
     {
-        return $this->belongsToMany(Roles::class);
+        return $this->belongsTo(Roles::class);
     }
 
-    public function hasRole($role)
-    {
-        if ($this->roles()->where('name', $role)->first()) {
-            return true;
-        }
-        return false;
-    }
 }

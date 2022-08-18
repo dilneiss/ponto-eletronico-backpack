@@ -5,8 +5,6 @@
 @section('content_header')
     <div class="container-fluid">
         <h1>Histórico de Registros</h1>
-        <small>Último login
-            em {{Carbon\Carbon::parse(Auth::user()->last_login)->format('d/m/Y H:i:s')}}</small>
         @stop
 
         @section('content')
