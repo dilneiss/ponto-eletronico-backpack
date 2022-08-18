@@ -30,5 +30,4 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     Route::get('/reports', 'RecordsController@reports');
 
-
 });

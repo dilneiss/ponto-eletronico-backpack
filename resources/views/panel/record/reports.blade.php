@@ -14,15 +14,15 @@
 
                     {!!  Form::open(['url'=>'reports', 'method' => 'get']) !!}
 
-                        <div class="col-xs-2 col-sm-2 col-md-2">
-                            <input type="date" name="date_start" class="form-control" value="{{request('date_start')}}">
-                        </div>
-                        <div class="col-xs-2 col-sm-2 col-md-2">
-                            <input type="date" name="date_end" class="form-control" value="{{request('date_end')}}">
-                        </div>
-                        <div class="col-xs-1 col-sm-1 col-md-1">
-                            {!! Form::submit('Filtrar', ['class'=> 'btn btn-success']) !!}
-                        </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2">
+                        <input type="date" name="date_start" class="form-control" value="{{request('date_start')}}">
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2">
+                        <input type="date" name="date_end" class="form-control" value="{{request('date_end')}}">
+                    </div>
+                    <div class="col-xs-1 col-sm-1 col-md-1">
+                        {!! Form::submit('Filtrar', ['class'=> 'btn btn-success']) !!}
+                    </div>
 
                     {!!  Form::close() !!}
 

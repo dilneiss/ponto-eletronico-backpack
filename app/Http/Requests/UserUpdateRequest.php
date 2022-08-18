@@ -5,8 +5,6 @@ namespace App\Http\Requests;
 use App\Enum\GroupPermissionEnum;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class UserUpdateRequest extends FormRequest
